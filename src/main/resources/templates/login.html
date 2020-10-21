@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: headerFragment (pageTitle='FWP | Login')">
+</head>
+<body>
+<form action="#" th:action="@{/login}" method="post" id="loginForm">
+    <div id="app">
+        <template>
+            <v-app id="inspire">
+                <v-content>
+                    <v-container
+                            class="fill-height"
+                            fluid
+                    >
+                        <v-row
+                                align="center"
+                                justify="center"
+                        >
+                            <v-col
+                                    cols="12"
+                                    sm="8"
+                                    md="4"
+                            >
+
+                                <v-card class="elevation-12">
+                                    <v-toolbar
+                                            color="primary"
+                                            dark
+                                            flat
+                                    >
+                                        <v-toolbar-title>FWP Login</v-toolbar-title>
+                                        <v-progress-linear
+                                                v-if="loading"
+                                                indeterminate
+                                                color="white"
+                                                bottom
+                                                absolute
+                                        />
+                                        <v-spacer></v-spacer>
+                                    </v-toolbar>
+                                    <v-card-text>
+                                        <v-text-field
+                                                id="username"
+                                                label="Email Address"
+                                                name="username"
+                                                prepend-icon="person"
+                                                type="text"
+                                                v-on:input="inputTextChanged"
+                                                autofocus
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                id="password"
+                                                label="Password"
+                                                name="password"
+                                                prepend-icon="lock"
+                                                :append-icon="isPasswordVisible ? 'visibility' : 'visibility_off'"
+                                                @click:append="() => (isPasswordVisible = !isPasswordVisible)"
+                                                :type="isPasswordVisible ? 'password' : 'text'"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                                type="submit"
+                                                v-on:click="submit"
+                                                color="primary">Login
+                                        </v-btn>
+                                    </v-card-actions>
+
+                                    <div th:if="${param.error}">
+                                        <v-alert
+                                                type="error"
+                                                :value="displayErrorMsg">
+                                            Invalid username or password.
+                                        </v-alert>
+                                    </div>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-content>
+            </v-app>
+        </template>
+    </div>
+    <script src="./js/login.js"></script>
+</form>
+</body>
+</html>

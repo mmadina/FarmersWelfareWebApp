@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: headerFragment (pageTitle='FWP | Home')">
+</head>
+<body>
+<div id="app">
+    <app-layout th:attr="username=${uname}">
+        <v-row
+                align="center"
+                justify="center"
+        >
+            Welcome!!
+        </v-row>
+    </app-layout>
+</div>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script th:src="@{/js/home.js}"></script>
+</body>
+</html>

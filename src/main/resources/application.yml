@@ -1,0 +1,6 @@
+server:
+  servlet:
+    context-path: /farmersWelfareProgram
+
+service:
+  farmersWelfareServiceUrl: http://localhost:8081/farmersWelfareServices/
