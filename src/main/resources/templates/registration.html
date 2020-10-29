@@ -3,33 +3,178 @@
 <head th:replace="common :: headerFragment (pageTitle='FWP | Registration')">
 </head>
 <body>
-    <v-card class="px-4">
-    <v-card-text>
-        <v-form ref="registerForm" v-model="valid" lazy-validation>
-            <v-row>
-                <v-col cols="12" sm="6" md="6">
-                    <v-text-field v-model="firstName" :rules="[rules.required]" label="First Name" maxlength="20" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                    <v-text-field v-model="lastName" :rules="[rules.required]" label="Last Name" maxlength="20" required></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                    <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                    <v-text-field v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                    <v-text-field block v-model="verify" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, passwordMatch]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Confirm Password" counter @click:append="show1 = !show1"></v-text-field>
-                </v-col>
-                <v-spacer></v-spacer>
-                <v-col class="d-flex ml-auto" cols="12" sm="3" xsm="12">
-                    <v-btn x-large block :disabled="!valid" color="success" @click="validate">Register</v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
-    </v-card-text>
-</v-card>
-    <script src="./js/registration.js"></script>
+<div id="app">
+    <template>
+        <v-app id="inspire">
+            <v-content>
+                <v-container
+                        class="fill-height"
+                        fluid
+                >
+                    <v-row
+                            align="center"
+                            justify="center"
+                    >
+                        <v-col
+                                cols="12"
+                                sm="8"
+                                md="4"
+                        >
+                            <v-alert
+                                    dense
+                                    text
+                                    type="success"
+                                    :value="displaySuccessMsg"
+                            >
+                                User registered successfully! Please login using Login link below.
+                            </v-alert>
+
+                            <v-alert
+                                    dense
+                                    text
+                                    type="error"
+                                    :value="displayErrorMsg">
+                                Unable to register user. Please try again.
+                            </v-alert>
+
+                            <v-card class="elevation-12">
+                                <v-toolbar
+                                        color="primary"
+                                        dark
+                                        flat
+                                >
+                                    <v-toolbar-title>FWP Registration</v-toolbar-title>
+                                    <v-progress-linear
+                                            v-if="loading"
+                                            indeterminate
+                                            color="white"
+                                            bottom
+                                            absolute
+                                    />
+                                    <v-spacer></v-spacer>
+                                </v-toolbar>
+                                <v-card-text>
+                                    <v-form ref="registerForm" v-model="valid">
+                                        <v-text-field
+                                                label="First Name"
+                                                v-model="firstName"
+                                                type="text"
+                                                v-on:input="inputTextChanged"
+                                                required
+                                                :rules="[rules.required]"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                label="Last Name"
+                                                v-model="lastName"
+                                                type="text"
+                                                required
+                                                :rules="[rules.required]"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                label="Email Address"
+                                                v-model="email"
+                                                required
+                                                :rules="[rules.required, rules.email]"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                v-model="password"
+                                                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                :rules="[rules.required, rules.min]"
+                                                :type="show1 ? 'text' : 'password'"
+                                                label="Password"
+                                                required
+                                                v-on:input="inputTextChanged"
+                                                hint="At least 4 characters"
+                                                counter
+                                                @click:append="show1 = !show1">
+                                        </v-text-field>
+
+                                        <v-text-field
+                                                block
+                                                v-model="verify"
+                                                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                :rules="[rules.required, passwordMatch]"
+                                                :type="show1 ? 'text' : 'password'"
+                                                required
+                                                v-on:input="inputTextChanged"
+                                                label="Confirm Password"
+                                                counter
+                                                @click:append="show1 = !show1">
+                                        </v-text-field>
+
+                                        <v-text-field
+                                                label="Phone Number"
+                                                v-model="phone"
+                                                required
+                                                :rules="[rules.required]"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                label="Address Line 1"
+                                                v-model="addressLine1"
+                                                required
+                                                :rules="[rules.required]"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                label="Address Line 2"
+                                                v-model="addressLine2"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                label="City"
+                                                v-model="city"
+                                                required
+                                                :rules="[rules.required]"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                label="State"
+                                                v-model="state"
+                                                required
+                                                :rules="[rules.required]"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                        <v-text-field
+                                                label="Zip Code"
+                                                v-model="zip"
+                                                required
+                                                :rules="[rules.required]"
+                                                v-on:input="inputTextChanged"
+                                        ></v-text-field>
+
+                                    </v-form>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                            v-on:click="submit"
+                                            :disabled="!valid"
+                                            color="primary">Register
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row align="center"
+                           justify="center">
+                        Existing User? <a th:href="@{/login}"> Login here</a>
+                    </v-row>
+                </v-container>
+            </v-content>
+        </v-app>
+    </template>
+</div>
+<script src="./js/registration.js"></script>
 </body>
 </html>

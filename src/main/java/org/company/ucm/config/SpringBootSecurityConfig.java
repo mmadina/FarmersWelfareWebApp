@@ -26,7 +26,7 @@ public class SpringBootSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/js/login.js", "/js/common.js", "/template/common.html", "/template/registration.html").permitAll()
+                .antMatchers("/js/login.js", "/js/common.js", "/template/common.html", "/register", "/register/user", "/template/registration.html", "/js/registration.js").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin()

@@ -44,4 +44,22 @@ public class FarmersWelfareServicesClient {
         }
         return Optional.ofNullable(responseEntity.getBody());
     }
+
+    public User createUser(User user) {
+        URI createUserUrl = UriComponentsBuilder
+                .fromHttpUrl(this.farmersWelfareServiceUrl)
+                .path("/user/create")
+                .build()
+                .toUri();
+        ResponseEntity<User> responseEntity = null;
+
+        try{
+            HttpEntity<User> httpEntity = new HttpEntity<>(user);
+            responseEntity = restTemplate.exchange(createUserUrl, HttpMethod.POST, httpEntity, User.class);
+
+        }catch(Exception ex){
+            throw ex;
+        }
+        return responseEntity.getBody();
+    }
 }
